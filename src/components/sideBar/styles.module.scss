@@ -1,0 +1,27 @@
+.sidebarWrapper {
+  .list {
+    div{
+      color: white;
+      padding: 10px 10px 10px 30px;
+
+      cursor: pointer;
+      &:focus{
+        background-color: red;
+      }
+      &:hover{
+        background-color: #00101f;
+      }
+
+    }
+  }
+
+}
+.title{
+  text-align: center;
+  color: blue;
+  font-size: 20px;
+  font-weight: bolder;
+
+  margin-bottom: 30px;
+  margin-top: 20px;
+}

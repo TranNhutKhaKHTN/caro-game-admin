@@ -1,0 +1,30 @@
+.indexWrapper
+{
+  display: flex;
+  background-color: #f0f2f5;
+}
+
+.leftContent
+{
+  background-color: #001529;
+  width: 20%;
+  height: 100vh;
+
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.rightContent {
+  width: 80%;
+  .rightTop{
+    background-color: white;
+  }
+
+  .rightBottom{
+    margin-top: 40px;
+    margin-left: 20px;
+    background-color: white;
+    min-height: 100vh;
+  }
+}
