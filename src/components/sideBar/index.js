@@ -8,13 +8,13 @@ const Sidebar = () => {
     <div className={styles.sidebarWrapper}>
       <div className={styles.title}>ADMIN CARO</div>
       <div className={styles.list}>
-        <div>
+        <div className={styles.listItem}>
           USER
         </div>
-        <div>
+        <div className={styles.listItem}>
           NAV1
         </div>
-        <div>
+        <div className={styles.listItem}>
           NAV2
         </div>
       </div>

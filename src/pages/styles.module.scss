@@ -19,6 +19,10 @@
   width: 80%;
   .rightTop{
     background-color: white;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 
   .rightBottom{
