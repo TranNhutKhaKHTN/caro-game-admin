@@ -1,0 +1,17 @@
+.footerWrapper
+{
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 30px;
+  background-color: #022345;
+  z-index: 1000000;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  color: white
+}

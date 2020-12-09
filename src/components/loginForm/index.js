@@ -68,6 +68,8 @@ function LoginForm() {
               </div>
               <Checkbox>Remember me!</Checkbox>
               <Button loading={loading} htmlType="submit" className={style.btnLogin}>Login</Button>
+
+              <div style={{ marginTop: 20 }}>Click here if you forget your password!</div>
             </Form>
           )}
         </Formik>
