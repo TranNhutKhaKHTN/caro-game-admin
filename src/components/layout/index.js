@@ -9,6 +9,7 @@ import {
   UploadOutlined,
 } from '@ant-design/icons';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import styles from './styles.module.scss';
 import UserMenu from '../userMenu';
 
@@ -35,7 +36,7 @@ const PageLayout = ({ children }) => {
         <div className={styles.logo} />
         <Menu theme="dark" mode="inline" selectedKeys={[`${path}`]}>
           <Menu.Item key="/admin/user" icon={<UserOutlined />}>
-            USER
+            <Link href="/admin/user">USER</Link>
           </Menu.Item>
           <Menu.Item key="/admin/nav2" icon={<VideoCameraOutlined />}>
             nav 2

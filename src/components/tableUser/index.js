@@ -1,109 +1,107 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Table, Tag, Space, Input,
+  Table, Tag, Button, Input,
 } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
+import { getApi } from '../../services/CallApi';
+import { API_HOST } from '../../config/constant/env';
+import { fetchGetAllUser } from '../../redux/userSlice';
 
 const { Search } = Input;
 const columns = [
   {
+    title: 'Active',
+    dataIndex: 'activated',
+    key: 'Active',
+    render: (activated) => <div>{activated ? <Tag color="green">Active</Tag> : <Tag color="red">Block</Tag>}</div>,
+  },
+  {
     title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (text) => <div>{text}</div>,
+    dataIndex: 'fullName',
+    key: 'Name',
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: 'email',
+    dataIndex: 'email',
+    key: 'email',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: 'Role',
+    dataIndex: 'role',
+    render: (data) => <Tag color="blue">{data === 0 ? 'NORMAL_USER' : 'ADMIN'}</Tag>,
+    key: 'Role',
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (tags) => (
-      <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
+    title: 'View match history',
+    key: 'history',
+    render: (record) => (
+      <Button>
+        {/* eslint-disable-next-line no-underscore-dangle */}
+        <Link href={`/admin/user/history/${record._id}`}>
+          View
+        </Link>
+      </Button>
     ),
   },
   {
     title: 'Action',
-    key: 'action',
-    render: (text, record) => (
-      <Space size="middle">
-        <span>
-          Invite
-          {record.name}
-        </span>
-        <span>Delete</span>
-      </Space>
+    dataIndex: 'activated',
+    render: (activated) => (
+      <div>
+        {activated ? <Button danger>Block</Button> : <Button>Unblock</Button>}
+      </div>
     ),
+    key: 'Action',
   },
 ];
 
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-  {
-    key: '4',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '5',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '6',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
-const TableUser = () => (
-  <>
-    <Search placeholder="input search text" enterButton />
-    <Table columns={columns} dataSource={data} />
-  </>
-);
+const TableUser = () => {
+  const listUser = useSelector((state) => state.user.data);
+  const [loading, setLoading] = useState(false);
+  const [keyWord, setKeyWord] = useState('');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    setLoading(true);
+    getApi(`${API_HOST}users/all`, { query: keyWord })
+      .then((res) => {
+        const action = fetchGetAllUser(res.data.data);
+        dispatch(action);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, [keyWord]);
+
+  const dataSource = listUser.map((data) => ({
+    ...data,
+    // eslint-disable-next-line no-underscore-dangle
+    key: data._id,
+  }));
+
+  const SearchUser = (e) => {
+    const key = e.target.value;
+    setKeyWord(key);
+  };
+
+  return (
+    <>
+      <div style={{ marginBottom: 20 }}>
+        <Search
+          placeholder="input search text"
+          enterButton
+          onChange={SearchUser}
+        />
+      </div>
+      <Table
+        columns={columns}
+        dataSource={dataSource}
+        pagination={{ pageSize: 7 }}
+        loading={loading}
+      />
+    </>
+  );
+};
 export default TableUser;

@@ -4,4 +4,5 @@ export const API_END_POINT = {
   USER_CREATE: 'users/register',
   USER_LOGIN: 'users/login',
   GET_ALL_USER: 'users/all',
+  SEARCH_USER: 'user/get',
 };
