@@ -18,8 +18,12 @@ const columns = [
   },
   {
     title: 'Name',
-    dataIndex: 'fullName',
     key: 'Name',
+    render: (record) => (
+      <Link href={`/admin/user/${record._id}`}>
+        {record.fullName}
+      </Link>
+    ),
   },
   {
     title: 'email',
@@ -33,7 +37,7 @@ const columns = [
     key: 'Role',
   },
   {
-    title: 'View match history',
+    title: 'View match historyDetail',
     key: 'history',
     render: (record) => (
       <Button>

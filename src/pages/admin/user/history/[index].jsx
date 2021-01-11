@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import {
   message, Table, Tag, Button,
 } from 'antd';
+import Link from 'next/link';
 import PageLayout from '../../../../components/layout';
 import { getApi } from '../../../../services/CallApi';
 import { API_HOST } from '../../../../config/constant/env';
@@ -40,8 +41,15 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
-    render: () => (
-      <Button>Detail</Button>
+    dataIndex: '',
+    render: (record) => (
+      // <div />
+      <Button>
+        <Link href={`/admin/historyDetail/${record.id}`}>
+          Detail
+        </Link>
+      </Button>
+
     ),
   },
 ];
@@ -52,13 +60,20 @@ const History = () => {
   const router = useRouter();
   const id = router.query.index;
 
+  const dataTable = dataSource.map((data) => ({
+    ...data,
+    key: data.id,
+  }));
+
   useEffect(() => {
     setLoading(true);
     if (id !== undefined) {
       const url = `${API_HOST}matches/admin/user/${id}`;
       getApi(url)
         .then((res) => {
-          setDataSource(res.data.data);
+          if (res.data.data) {
+            setDataSource(res.data.data);
+          }
           setLoading(false);
         })
         .catch((error) => {
@@ -71,7 +86,7 @@ const History = () => {
     <PageLayout>
       <Table
         columns={columns}
-        dataSource={dataSource}
+        dataSource={dataTable}
         loading={loading}
         pagination={{
           pageSize: 7,

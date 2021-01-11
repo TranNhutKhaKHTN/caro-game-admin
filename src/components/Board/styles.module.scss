@@ -1,0 +1,6 @@
+.boardWrapper{
+  height: fit-content;
+
+  border: 20px solid transparent;
+  border-image: url("/boardBorder.png") 10 round;
+}

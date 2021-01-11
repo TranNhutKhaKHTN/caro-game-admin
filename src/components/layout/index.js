@@ -39,10 +39,10 @@ const PageLayout = ({ children }) => {
             <Link href="/admin/user">USER</Link>
           </Menu.Item>
           <Menu.Item key="/admin/nav2" icon={<VideoCameraOutlined />}>
-            nav 2
+            Manager
           </Menu.Item>
           <Menu.Item key="3" icon={<UploadOutlined />}>
-            nav 3
+            History
           </Menu.Item>
         </Menu>
       </Sider>
