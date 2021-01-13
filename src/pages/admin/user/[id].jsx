@@ -35,6 +35,7 @@ const UserDetail = () => {
     <div
       style={{ width: 500 }}
     >
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <Form {...layout}>
         <Form.Item
           label="User name"

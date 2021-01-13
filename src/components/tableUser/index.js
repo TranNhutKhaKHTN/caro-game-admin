@@ -7,6 +7,8 @@ import Link from 'next/link';
 import { getApi } from '../../services/CallApi';
 import { API_HOST } from '../../config/constant/env';
 import { fetchGetAllUser } from '../../redux/userSlice';
+import BlockUser from '../blockUser';
+import UnBlockUser from '../unBlockUser';
 
 const { Search } = Input;
 const columns = [
@@ -50,10 +52,9 @@ const columns = [
   },
   {
     title: 'Action',
-    dataIndex: 'activated',
-    render: (activated) => (
+    render: (record) => (
       <div>
-        {activated ? <Button danger>Block</Button> : <Button>Unblock</Button>}
+        {!record.blocked ? <BlockUser id={record._id} /> : <UnBlockUser id={record._id} />}
       </div>
     ),
     key: 'Action',
@@ -64,6 +65,7 @@ const TableUser = () => {
   const listUser = useSelector((state) => state.user.data);
   const [loading, setLoading] = useState(false);
   const [keyWord, setKeyWord] = useState('');
+  const fetching = useSelector((state) => state.fetching.fetch);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -77,7 +79,7 @@ const TableUser = () => {
       .catch(() => {
         setLoading(false);
       });
-  }, [keyWord]);
+  }, [keyWord, fetching]);
 
   const dataSource = listUser.map((data) => ({
     ...data,
