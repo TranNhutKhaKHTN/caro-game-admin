@@ -7,15 +7,16 @@ import Board from '../../../components/Board';
 import { API_HOST } from '../../../config/constant/env';
 import { getApi } from '../../../services/CallApi';
 import { newGame, exeMove } from '../../../redux/currentMatchSlice';
+import Chat from '../../../components/chat';
 
 const HistoryDetail = () => {
   const [listMove, setListMove] = useState([]);
   const [step, setStep] = useState(listMove.length);
+  const [chatLog, setChatLog] = useState([]);
   const dispatch = useDispatch();
   const inputRef = useRef(null);
   const router = useRouter();
   const idMatch = router.query.index;
-  console.log(listMove);
 
   useEffect(() => {
     if (idMatch) {
@@ -23,6 +24,7 @@ const HistoryDetail = () => {
         .then((res) => {
           setListMove(res.data.data.match[0].moves);
           setStep(res.data.data.match[0].moves.length);
+          setChatLog(res.data.data.match[0].chatLogs);
         })
         .catch((err) => {
           message.error(err?.response.message);
@@ -86,19 +88,15 @@ const HistoryDetail = () => {
         >
           Back
         </Button>
-        {/* <UserPlaying isCurrentUser myTurn="" name="host?.fullName" img="https://res.cloudinary.com/kh-ng/image/upload/v1607835120/caro/unnamed_rwk6xo.png" /> */}
-        {/* <UserPlaying myTurn={false} name={"competitor !== null ? competitor.fullName : 'Waiting...'"} img="https://res.cloudinary.com/kh-ng/image/upload/v1607835120/caro/unnamed_rwk6xo.png" /> */}
       </div>
       <Board />
-      <div className={styles.chat}>
-        {/* <Chat socket={socket} roomId={param.query.index} /> */}
-      </div>
-      {/* <EndGame socket={socket} roomId={param.query.index} /> */}
+      <div className={styles.chat} />
       <div style={{ display: 'flex' }}>
         <Button type="primary" onClick={Previous}> Prev </Button>
         <input type="number" max={listMove.length} min={0} ref={inputRef} onChange={ChangeStep} />
         <Button type="primary" danger onClick={Next}> Next </Button>
       </div>
+      <Chat data={chatLog} />
     </div>
   );
 };
